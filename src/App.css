@@ -1,8 +1,102 @@
 :root {
-  back
+  --background-color: #FFF;
+  --outer-shell-color: #00B4C5;
+  --inner-shell-color: #FFF;
+  --input-border-color: #00B4C5;
+
 }
 
 .parent-div-ai-text-chat {
   width: 100vw;
   height: 100vh;
+  background-color: var(--background-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: monospace;
+}
+
+.ai-text-chat-outer-shell {
+  margin: 0 auto;
+  width: 600px;
+  height: 50%;
+  background-color: var(--outer-shell-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ai-text-chat-inner-shell {
+  margin: 0 auto;
+  width: 90%;
+  height: 90%;
+  background-color: var(--inner-shell-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
+.ai-text-chat-form {
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
+
+}
+
+#job-title-input {
+  background-color: var(--inner-shell-color);
+  border: 2px solid var(--input-border-color);
+  margin-left: 10px;
+  height: 25px;
+  font-size: large;
+  color: black;
+  outline: none;
+  font-family: monospace;
+}
+
+#conversation-display {
+  background-color: #FFF;
+  border: 2px solid black;
+  color: black;
+  outline: none;
+  font-family: monospace;
+  width: 450px;
+  height: 350px;
+
+}
+
+#chat-box-span {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 50px;
+  align-items: center;
+}
+
+#chat-box-span input {
+  margin: 10px;
+  background-color: var(--inner-shell-color);
+  border: 2px solid var(--input-border-color);
+  font-family: monospace;
+  height: 25px;
+  width: 60%;
+  outline: none;
+  color: black;
+
+}
+
+#submit {
+  height: 28px;
+  width: 60px;
+  background-color: var(--outer-shell-color);
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0;
+  outline: none;
 }
