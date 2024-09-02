@@ -12,7 +12,7 @@ const AiTextChat: React.FC = () => {
     ]);
 
 
-    const [systemInstruction, setSystemInstruction] = useState('You are a job interviewer, you are interviewing a candidate for a software engineering position. The candidate has done a tech accelerator program, and has experience with HTML, CSS, JS, Node.js, typescript, React.js, and Vite.js. Keep your responses brief. There will be 2 questions and 2 answers. After that I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved.')
+    const [systemInstruction, setSystemInstruction] = useState('You are a job interviewer, you are interviewing a candidate for a software engineering position. The candidate has done a tech accelerator program, and has experience with HTML, CSS, JS, Node.js, typescript, React.js, and Vite.js. Keep your responses brief. There will be 6 questions and 6 answers. After that I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved.')
     const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel( { 
     model: "gemini-1.5-flash",
@@ -21,16 +21,23 @@ const AiTextChat: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        
+
         if (chatText.trim() !== '') {
             setConversation(prev => [...prev, { text: `${chatText}`, role: 'user' }]);
             setChatText('');
             
+            
           
             // AI Response
             const aiResponse = await model.generateContent(chatText);
+            if (jobTitle === '') {
+                setConversation(prev => [...prev, { text: `Please input a job title and press enter...`, role: 'interviewer' }]);
+            } else {
             setConversation(prev => [...prev, { text: `${aiResponse.response.text()}`, role: 'interviewer' }]);
-
             setChatText('');
+            }
         }
     };
 
@@ -38,14 +45,30 @@ const AiTextChat: React.FC = () => {
     const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            alert(`You entered ${jobTitle}`);
             if (jobTitle === 'Junior Software Developer') {
-              setSystemInstruction('You are a job interviewer, you are interviewing a candidate for a software engineering position. The candidate has done a tech accelerator program, and has experience with HTML, CSS, JS, Node.js, typescript, React.js, and Vite.js. Keep your responses less than 50 words. Get straight into the interview on the first interaction.');
+              setSystemInstruction(`
+                You are a job interviewer, 
+                you are interviewing a candidate for a software engineering position. 
+                The candidate has done a tech accelerator program, and has experience with HTML,
+                CSS, JS, Node.js, typescript, React.js, and Vite.js.
+                Keep your responses less than 50 words.
+                Get straight into the interview on the first interaction.
+                Respond to the user's answers six times. After that I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved. Add this response to the end of your sixth response.`);
             } else if (jobTitle === 'UX Designer') {
-                setSystemInstruction('You are a job interviewer, you are interviewing a candidate for a UX design position. The candidate has done a tech accelerator program, and has experience with Figma, Adobe XD, and Sketch. Keep your responses less than 50 words. Get straight into the interview on the first interaction. Remember that this is an interview, I am applying for a job.');
+                setSystemInstruction(`
+                You are a job interviewer, you are interviewing a candidate for a UX design position.
+                The candidate has done a tech accelerator program, and has experience with Figma,
+                Adobe XD, and Sketch. Keep your responses less than 50 words.
+                Respond to the user's answers six times. After that I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved. Add this response to the end of your sixth response.`);
             } else if (jobTitle === 'Building Apprentice') {
-                setSystemInstruction('You are a job interviewer, you are interviewing somebody who has many years of building/carpentry experience and is doing his apprenticeship. Keep your responses less than 50 words. Get straight into the interview on the first interaction. Remember that this is an interview, I am applying for a job.');
-            }
+                setSystemInstruction(`
+                You are a job interviewer,
+                you are interviewing somebody who has many years of building/carpentry experience and is doing his apprenticeship.
+                Keep your responses less than 50 words. Get straight into the interview on the first interaction.
+                Remember that this is an interview, I am applying for a job.
+                Respond to the user's answers six times. After that I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved. Add this response to the end of your sixth response.`);
+            } else alert('Please input a valid job title.');
+            
 
            
         }
@@ -67,6 +90,7 @@ const AiTextChat: React.FC = () => {
                     value={jobTitle}
                     onChange={(e) => setJobTitle(e.target.value)}
                     onKeyDown={handleKeyPress}
+                    placeholder='Please input a job title and press enter...'
                     required/></span>
             <br />
         </div>

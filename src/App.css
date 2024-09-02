@@ -6,6 +6,27 @@
 
 }
 
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: var(--input-border-color);
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+}
+
+
+
 .parent-div-ai-text-chat {
   width: 100vw;
   height: 100vh;
@@ -120,10 +141,10 @@
   background-color: lightsalmon;
   border: 2px solid lightsalmon;
   border-radius: 4px;
-  text-align: right;
+  text-align: left;
   max-width: 280px;
   margin-left: 220px;
-  padding-right: 23px;
+  padding-left: 10px;
   color: white;
 }
 
