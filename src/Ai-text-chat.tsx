@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import JobTitle from './JobTitle';
+const API_KEY = import.meta.env.VITE_GEMINI_KEY;
 
 
-const API_KEY = 'AIzaSyDAQzOj1sBChi-dNlimYMb8HENDu_rozSA';
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel( { 
     model: "gemini-1.5-flash",
-     systemInstruction: "You are a job interviewer, you are interviewing a candidate for a software engineering position. The candidate has done a tech accelerator program, and has experience with HTML, CSS, JS, Node.js, typescript, React.js, and Vite.js. Keep your responses brief. Get straight into the interview on the first interaction. After eight interactions, I want you to stop the interview and give the user a review on how well they answered the questions, and suggest how their responses could be improved." });
+     systemInstruction: "You are a job interviewer, you are interviewing a candidate for a software engineering position. The candidate has done a tech accelerator program, and has experience with HTML, CSS, JS, Node.js, typescript, React.js, and Vite.js. Keep your responses brief. After eight interactions, I want you to stop the interview and give the user a review on how well they answered the questions, and suggest how their responses could be improved." });
 
 const AiTextChat: React.FC = () => {
     const [chatText, setChatText] = useState<string>('');
-    const [conversation, setConversation] = useState<string[]>([
-        'Interviewer: Tell me about yourself.',
+    const [conversation, setConversation] = useState<{ text: string, role: 'user' | 'interviewer' }[]>([
+        {text: 'Interviewer: Tell me about yourself.', role: 'interviewer'}
     ]);
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (chatText.trim() !== '') {
-            setConversation(prev => [...prev, `Me: ${chatText}`]);
+            setConversation(prev => [...prev, { text: `${chatText}`, role: 'user' }]);
             
 
             // AI Response
             const aiResponse = await model.generateContent(chatText);
-            setConversation(prev => [...prev, `Interviewer: ${aiResponse.response.text()}`]);
+            setConversation(prev => [...prev, { text: `${aiResponse.response.text()}`, role: 'interviewer' }]);
 
             setChatText('');
         }
@@ -39,7 +39,9 @@ const AiTextChat: React.FC = () => {
                     <JobTitle />
                     <div id='conversation-display' className='conversation-display'>
                             {conversation.map((msg, index) => (
-                                <div key={index}>{msg}</div>
+                                <p key={index} className={msg.role === 'user' ? 'user-text' : 'interviewer-text'}>
+                                {msg.text}
+                            </p>
                             ))}
                         </div>
                     
