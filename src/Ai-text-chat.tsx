@@ -7,7 +7,7 @@ const API_KEY = import.meta.env.VITE_GEMINI_KEY;
 const genAI = new GoogleGenerativeAI(API_KEY);
 const model = genAI.getGenerativeModel( { 
     model: "gemini-1.5-flash",
-     systemInstruction: "You are a job interviewer, you are interviewing a candidate for a software engineering position. The candidate has done a tech accelerator program, and has experience with HTML, CSS, JS, Node.js, typescript, React.js, and Vite.js. Keep your responses brief. After eight interactions, I want you to stop the interview and give the user a review on how well they answered the questions, and suggest how their responses could be improved." });
+     systemInstruction: "You are a job interviewer, you are interviewing a candidate for a software engineering position. The candidate has done a tech accelerator program, and has experience with HTML, CSS, JS, Node.js, typescript, React.js, and Vite.js. Keep your responses brief. There will be 2 questions and 2 answers. After that I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved." });
 
 const AiTextChat: React.FC = () => {
     const [chatText, setChatText] = useState<string>('');
@@ -18,8 +18,9 @@ const AiTextChat: React.FC = () => {
         e.preventDefault();
         if (chatText.trim() !== '') {
             setConversation(prev => [...prev, { text: `${chatText}`, role: 'user' }]);
+            setChatText('');
             
-
+          
             // AI Response
             const aiResponse = await model.generateContent(chatText);
             setConversation(prev => [...prev, { text: `${aiResponse.response.text()}`, role: 'interviewer' }]);
