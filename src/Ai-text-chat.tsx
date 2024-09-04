@@ -120,4 +120,4 @@ const AiTextChat: React.FC = () => {
     )
 }
 
-export default { AiTextChat };
+export default AiTextChat;
