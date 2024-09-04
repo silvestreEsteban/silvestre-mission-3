@@ -8,7 +8,7 @@ const API_KEY = import.meta.env.VITE_GEMINI_KEY;
 const AiTextChat: React.FC = () => {
     const [chatText, setChatText] = useState<string>('');
     const [conversation, setConversation] = useState<{ text: string, role: 'user' | 'interviewer' }[]>([
-        {text: 'Interviewer: Tell me about yourself.', role: 'interviewer'}
+        {text: 'Interviewer: Input your job title and then we can get started right away. Tell me a bit about yourself', role: 'interviewer'}
     ]);
 
 
@@ -53,7 +53,7 @@ const AiTextChat: React.FC = () => {
                 CSS, JS, Node.js, typescript, React.js, and Vite.js.
                 Keep your responses less than 50 words.
                 Get straight into the interview on the first interaction.
-                Respond to the user's answers six times. After that I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved. Add this response to the end of your sixth response.`);
+                After six questions and six answers, I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved. Add this response to the end of your sixth response.`);
             } else if (jobTitle === 'UX Designer') {
                 setSystemInstruction(`
                 You are a job interviewer, you are interviewing a candidate for a UX design position.
@@ -90,7 +90,6 @@ const AiTextChat: React.FC = () => {
                     value={jobTitle}
                     onChange={(e) => setJobTitle(e.target.value)}
                     onKeyDown={handleKeyPress}
-                    placeholder='Please input a job title and press enter...'
                     required/></span>
             <br />
         </div>
@@ -121,4 +120,4 @@ const AiTextChat: React.FC = () => {
     )
 }
 
-export default AiTextChat;
+export default { AiTextChat };
