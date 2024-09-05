@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import JobTitleInput from './Components/jobtitle';
 import ConversationDisplay from './Components/conversation-display';
@@ -9,38 +9,31 @@ const API_KEY = import.meta.env.VITE_GEMINI_KEY;
 
 const AiTextChat: React.FC = () => {
 
-    interface GenerativeModel {
-        generateContent: (input: string) => Promise<{ response: { text: () => string } }>;
-    }
-
     const [conversation, setConversation] = useState<{ text: string, role: 'user' | 'interviewer' }[]>([
         { text: 'Interviewer: Input your job title and then we can get started right away. Tell me a bit about yourself', role: 'interviewer' }
     ]);
-    const [systemInstruction, setSystemInstruction] = useState('You are a job interviewer, you are interviewing a candidate for a software engineering position. The candidate has done a tech accelerator program, and has experience with HTML, CSS, JS, Node.js, typescript, React.js, and Vite.js. Keep your responses brief. There will be 6 questions and 6 answers. After that I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved.');
-    const [model, setModel] = useState<GenerativeModel | null>(null);
     
-    
-    useEffect(() => {
-        const genAI = new GoogleGenerativeAI(API_KEY);
-        const initializedModel = genAI.getGenerativeModel({
-            model: "gemini-1.5-pro",
-            systemInstruction: systemInstruction
-        });
-        setModel(initializedModel)
-    }, [systemInstruction])
-   
+    const [systemInstruction, setSystemInstruction] = useState('You are a job interviewer, you are interviewing a candidate for a software engineering position. The candidate has done a tech accelerator program, and has experience with HTML, CSS, JS, Node.js, typescript, React.js, and Vite.js. Keep your responses brief. There will be 6 questions and 6 answers. After that I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved.')
+    const genAI = new GoogleGenerativeAI(API_KEY);
+    const model = genAI.getGenerativeModel( { 
+    model: "gemini-1.5-flash",
+    systemInstruction: systemInstruction
+    });    
+
 
     const handleSubmit = async (e: React.FormEvent, chatText: string) => {
         e.preventDefault();
 
         if (chatText.trim() !== '' && model) {
             setConversation(prev => [...prev, { text: `${chatText}`, role: 'user' }]);
-
-            const aiResponse = await model.generateContent(chatText);
+          try {
+            const aiResponse = await model.generateContent(chatText)
             if (jobTitle === '') {
                 setConversation(prev => [...prev, { text: `Please input a job title and press enter...`, role: 'interviewer' }]);
             } else {
                 setConversation(prev => [...prev, { text: `${aiResponse.response.text()}`, role: 'interviewer' }]);
+            } } catch (error) {
+                console.error('Error generating response:', error);
             }
         }
     };
