@@ -17,6 +17,7 @@ const JobTitleInput: React.FC<JobTitleInputProps> = ({ jobTitle, setJobTitle, ha
             onChange={(e) => setJobTitle(e.target.value)}
             onKeyDown={handleKeyPress}
             required
+            placeholder='e.g. Junior Software Developer'
         />
     </div>
 );

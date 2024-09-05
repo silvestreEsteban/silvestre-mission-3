@@ -72,6 +72,9 @@
 }
 
 
+#job-title input::placeholder {
+  font-style: italic;
+}
 
 #job-title-input {
   background-color: var(--inner-shell-color);
@@ -160,4 +163,14 @@
   text-align: left;
   max-width: 200px;
   padding-left: 10px;
+}
+
+#paper-airplane {
+  margin-left: 5px;
+  width: 24px;
+  height: 24px;
+}
+
+#paper-airplane {
+  margin-top: 8px;
 }

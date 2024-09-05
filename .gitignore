@@ -12,6 +12,11 @@ dist
 dist-ssr
 *.local
 *.env
+*aitextchat.test.tsx
+*chatbot.test.tsx
+*conversation-display.test.tsx
+*jobtitle.test.tsx
+
 
 # Editor directories and files
 .vscode/*

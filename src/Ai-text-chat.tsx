@@ -10,10 +10,10 @@ const API_KEY = import.meta.env.VITE_GEMINI_KEY;
 const AiTextChat: React.FC = () => {
 
     const [conversation, setConversation] = useState<{ text: string, role: 'user' | 'interviewer' }[]>([
-        { text: 'Interviewer: Input your job title and then we can get started right away. Tell me a bit about yourself', role: 'interviewer' }
+        { text: 'Welcome! To get started, input the title of the job you are applying for. Then you can send a message and we will get started right away!', role: 'interviewer' }
     ]);
     
-    const [systemInstruction, setSystemInstruction] = useState('You are a job interviewer, you are interviewing a candidate for a software engineering position. The candidate has done a tech accelerator program, and has experience with HTML, CSS, JS, Node.js, typescript, React.js, and Vite.js. Keep your responses brief. There will be 6 questions and 6 answers. After that I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved.')
+    const [systemInstruction, setSystemInstruction] = useState('You are a job interviewer, you are interviewing a candidate for a software engineering position. After six user inputs you are to provide feedback on the user`s answers. The candidate has done a tech accelerator program, and has experience with HTML, CSS, JS, Node.js, typescript, React.js, and Vite.js. Keep your responses brief.')
     const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel( { 
     model: "gemini-1.5-flash",
@@ -46,25 +46,25 @@ const AiTextChat: React.FC = () => {
             if (jobTitle === 'Junior Software Developer') {
                 setSystemInstruction(`
                     You are a job interviewer, 
-                    you are interviewing a candidate for a software engineering position. 
+                    you are interviewing a candidate for a software engineering position.
+                    You are to provide feedback after six user inputs. 
                     The candidate has done a tech accelerator program, and has experience with HTML,
                     CSS, JS, Node.js, typescript, React.js, and Vite.js.
                     Keep your responses less than 50 words.
-                    Get straight into the interview on the first interaction.
-                    After six questions and six answers, I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved. Add this response to the end of your sixth response.`);
+                    Get straight into the interview on the first interaction.`);
             } else if (jobTitle === 'UX Designer') {
                 setSystemInstruction(`
                     You are a job interviewer, you are interviewing a candidate for a UX design position.
+                    You are to provide feedback after six user inputs. 
                     The candidate has done a tech accelerator program, and has experience with Figma,
-                    Adobe XD, and Sketch. Keep your responses less than 50 words.
-                    Respond to the user's answers six times. After that I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved. Add this response to the end of your sixth response.`);
+                    Adobe XD, and Sketch. Keep your responses less than 50 words.`);
             } else if (jobTitle === 'Building Apprentice') {
                 setSystemInstruction(`
                     You are a job interviewer,
                     you are interviewing somebody who has many years of building/carpentry experience and is doing his apprenticeship.
+                    You are to provide feedback after six user inputs. 
                     Keep your responses less than 50 words. Get straight into the interview on the first interaction.
-                    Remember that this is an interview, I am applying for a job.
-                    Respond to the user's answers six times. After that I want you give the user a review on how well they answered the questions, and suggest how their responses could be improved. Add this response to the end of your sixth response.`);
+                    Remember that this is an interview, I am applying for a job.`);
             } else alert('Please input a valid job title.');
         }
     };
