@@ -106,7 +106,7 @@
   justify-content: flex-start;
   height: 50px;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 #chat-box-span input {
@@ -119,12 +119,13 @@
   color: black;
   width: 385px;
   border-radius: 4px;
+  padding: 4px;
 
 }
 
 #submit {
-  height: 32px;
-  width: 60px;
+  height: 36px;
+  width: 71px;
   background-color: lightsalmon;
   color: white;
   display: flex;
@@ -133,6 +134,11 @@
   border-radius: 0;
   outline: none;
   border-radius: 4px;
+}
+
+#submit:hover {
+  border: 1px solid var(--input-border-color);
+  background-color: rgb(248, 142, 101);
 }
 
 .user-text {
